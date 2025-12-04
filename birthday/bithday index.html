@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Surprise!</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #ffe4e1 0%, #ffb6c1 25%, #f8e8ff 50%, #e6f7ff 75%, #fff0f5 100%);
+            color: #333;
+            padding: 50px;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 24px;
+            animation: float 6s ease-in-out infinite;
+        }
+        .heart:nth-child(odd) {
+            color: #ffffff;
+            border: 2px solid #ff69b4;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+        }
+        .star {
+            position: absolute;
+            color: #ffd700;
+            font-size: 18px;
+            animation: twinkle 4s ease-in-out infinite;
+        }
+        .cute-extra {
+            position: absolute;
+            font-size: 2em;
+            animation: spin 5s linear infinite;
+            opacity: 0.8;
+        }
+        .confetti {
+            position: absolute;
+            font-size: 1.5em;
+            animation: fall 3s linear infinite;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .confetti.show {
+            opacity: 1;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes fadeInLeft {
+            0% { opacity: 0; transform: translateX(-50px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes swipeLeft {
+            0% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(-100vw); opacity: 0; }
+        }
+        #ready-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 182, 193, 0.7);
+            display: flex;
+            justify-content: flex-start; /* Left half positioning */
+            align-items: center;
+            z-index: 10;
+            transition: opacity 1s ease-out;
+            padding-left: 10%;
+        }
+        .step {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 500px;
+            font-size: 1.5em;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+            display: none;
+            text-align: left; /* Left-aligned text */
+            box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+            animation: fadeInLeft 0.5s ease-out;
+        }
+        .step.active {
+            display: block;
+        }
+        .step.swipe {
+            animation: swipeLeft 1s ease-in-out forwards;
+        }
+        #step1 {
+            font-size: 3em; /* Big "Hi Feriel" */
+        }
+        .response-button {
+            background: linear-gradient(45deg, #ff69b4, #ffb6c1);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 15px;
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+            transition: all 0.3s ease;
+        }
+        .response-button:hover {
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+        }
+        .arrow {
+            font-size: 2em;
+            color: #ff69b4;
+            background: linear-gradient(to right, #ff69b4, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            margin-left: 20px;
+            animation: bounce 2s infinite;
+            transition: all 0.3s ease;
+        }
+        .arrow:hover {
+            transform: scale(1.2);
+            opacity: 0.9;
+            filter: drop-shadow(0 0 5px #ff69b4);
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(0); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(5px); }
+        }
+        .letter {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 60px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            filter: blur(5px);
+            transition: filter 1s ease-out, transform 1s ease-out;
+        }
+        .letter.clear {
+            filter: blur(0px);
+            transform: scale(1.02);
+        }
+        h1 {
+            color: #ff69b4;
+            font-size: 4em;
+            animation: pulse 2s infinite;
+        }
+        p {
+            font-size: 2em;
+            line-height: 1.6;
+        }
+        .cute-elements {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            font-size: 2em;
+            color: #ff69b4;
+            animation: bounce 3s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts -->
+    <div class="heart" style="left: 10%; animation-delay: 0s;">♥</div>
+    <div class="heart" style="left: 20%; animation-delay: 1s;">♡</div>
+    <div class="heart" style="left: 30%; animation-delay: 2s;">♥</div>
+    <div class="heart" style="left: 40%; animation-delay: 3s;">♡</div>
+    <div class="heart" style="left: 50%; animation-delay: 4s;">♥</div>
+    <div class="heart" style="left: 60%; animation-delay: 5s;">♡</div>
+    <div class="heart" style="left: 70%; animation-delay: 6s;">♥</div>
+    <div class="heart" style="left: 80%; animation-delay: 7s;">♡</div>
+    <div class="heart" style="left: 90%; animation-delay: 8s;">♥</div>
+    <div class="heart" style="left: 5%; animation-delay: 9s;">💖</div>
+    <div class="heart" style="left: 95%; animation-delay: 10s;">💕</div>
+
+    <!-- Twinkling stars -->
+    <div class="star" style="left: 15%; top: 20%; animation-delay: 0s;">✨</div>
+    <div class="star" style="left: 35%; top: 30%; animation-delay: 1s;">⭐</div>
+    <div class="star" style="left: 55%; top: 40%; animation-delay: 2s;">✨</div>
+    <div class="star" style="left: 75%; top: 50%; animation-delay: 3s;">⭐</div>
+    <div class="star" style="left: 25%; top: 60%; animation-delay: 4s;">✨</div>
+    <div class="star" style="left: 45%; top: 70%; animation-delay: 5s;">⭐</div>
+    <div class="star" style="left: 65%; top: 80%; animation-delay: 6s;">✨</div>
+    <div class="star" style="left: 85%; top: 90%; animation-delay: 7s;">🌟</div>
+
+    <!-- Cute extra elements -->
+    <div class="cute-extra" style="left: 20%; top: 15%;">🐱</div>
+    <div class="cute-extra" style="left: 40%; top: 85%;">🦄</div>
+    <div class="cute-extra" style="left: 80%; top: 70%;">🍭</div>
+
+    <!-- Confetti elements -->
+    <div class="confetti" id="confetti1" style="left: 10%; animation-delay: 0s;">🎉</div>
+    <div class="confetti" id="confetti2" style="left: 30%; animation-delay: 0.5s;">🎊</div>
+    <div class="confetti" id="confetti3" style="left: 50%; animation-delay: 1s;">✨</div>
+    <div class="confetti" id="confetti4" style="left: 70%; animation-delay: 1.5s;">🎈</div>
+    <div class="confetti" id="confetti5" style="left: 90%; animation-delay: 2s;">🌸</div>
+
+    <!-- Cute elements -->
+    <div class="cute-elements">🎂</div>
+    <div class="cute-elements" style="left: 80%; top: 20%;">🎈</div>
+    <div class="cute-elements" style="left: 50%; top: 80%;">🌸</div>
+
+    <!-- Letter -->
+    <div class="letter" id="letter">
+        <h1>Happy Birthday!</h1>
+        <p>Dear [Friend's Name],</p>
+        <p>On this special day, I want to wish you a year filled with joy, laughter, and unforgettable moments. May all your dreams come true and your heart be filled with happiness.</p>
+        <p>Cheers to another amazing year!</p>
+        <p>With love,<br>[Your Name]</p>
+    </div>
+
+    <!-- Ready screen with steps -->
+    <div id="ready-screen">
+        <div class="step active" id="step1">
+            <p>Hi Feriel</p>
+            <button class="response-button" onclick="nextStep(2)">Hi</button>
+        </div>
+        <div class="step" id="step2">
+            <p>I've got a special birthday surprise for you, I hope you like it</p>
+            <span class="arrow" onclick="nextStep(3)">➡️</span>
+        </div>
+        <div class="step" id="step3">
+            <!-- This step will trigger the letter reveal -->
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+
+        function nextStep(step) {
+            document.getElementById('step' + currentStep).classList.add('swipe');
+            setTimeout(() => {
+                document.getElementById('step' + currentStep).classList.remove('active', 'swipe');
+                currentStep = step;
+                document.getElementById('step' + currentStep).classList.add('active');
+                if (step === 3) {
+                    setTimeout(() => {
+                        showLetter();
+                    }, 500);
+                }
+            }, 1000);
+        }
+
+        function showLetter() {
+            document.getElementById('ready-screen').style.opacity = '0';
+            document.getElementById('letter').classList.add('clear');
+            const confettis = document.querySelectorAll('.confetti');
+            confettis.forEach(confetti => confetti.classList.add('show'));
+            setTimeout(() => {
+                document.getElementById('ready-screen').style.display = 'none';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
